@@ -1,0 +1,926 @@
+#:import ScrollEffect kivy.effects.scroll.ScrollEffect
+#:import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+<Manager>:
+    transition: FadeTransition()
+    LoginScreen:
+        name: 'loginscreen'
+    NetflixHome:
+        name: 'netflixmenu'
+    ResultPage:
+        name: 'resultpage'
+    AccountPage:
+        name: 'accountpage'
+    MobifyRepair:
+        name: 'mobifyrepair'
+    MobifySell:
+        name: 'mobifysell'
+
+########################################################################################################################
+<UserInput@TextInput>:
+    size_hint: None, None
+    size: 280, 40
+    font_size: 20
+    multiline: False
+    background_color: .2, .2, .2, 1
+    foreground_color: 1, 1, 1, 1
+    background_normal: app.roundborder
+    background_active: app.roundborder
+
+
+<AccountPage>
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 0.5
+        Rectangle:
+            source: app.background_login
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        size_hint: 1, 0.12
+        pos_hint: {'top': 1}
+        Image:
+            source: app.netflix_logo
+            pos_hint: {'center_y': .5}
+            size_hint: None, None
+            size: 170, 90
+    BoxLayout:
+        padding: self.width*0.3, self.height*0.12, self.width*0.3, self.height*0.12   #left, top, right, bottom
+        FloatLayout:
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 0.6
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: 'Create Account'
+                font_name: app.netflix_font
+                font_size: 45
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.075, 'center_y': .90}
+            UserInput:
+                id: name
+                pos_hint:{'center_x': 0.5, 'center_y': 0.78}
+                focus: True
+                hint_text:'Full Name'
+                write_tab: False
+                on_text_validate:
+            UserInput:
+                id: email
+                pos_hint: {'center_x': 0.5, 'center_y': .68}
+                focus: True
+                hint_text: 'Email'
+                write_tab: False
+                on_text_validate: root.login_verification()
+            UserInput:
+                id: passw
+                pos_hint: {'center_x': 0.5, 'center_y': .58}
+                hint_text: 'Password'
+                password: True
+                on_text: root.istab_pressed(self.text)
+                on_text_validate: root.login_verification()
+            UserInput:
+                id: number
+                pos_hint:{'center_x':0.5, 'center_y': 0.48}
+                hint_text: 'Ph. Number'
+                write_tab: False
+                on_text_validate:
+
+            UserInput:
+                id: address
+                pos_hint:{'center_x':0.5, 'center_y': 0.38}
+                hint_text: 'Address'
+                write_tab: False
+                on_text_validate:
+
+            Button:
+                size_hint: None,None
+                size: 280,40
+                pos_hint: {'center_x':0.5, 'center_y': .28 }
+                background_color: 1,0.3,0.2,1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Create Account'
+                bold: True
+                on_press: root.openaccountpage()
+
+            Label:
+                size_hint: None, None
+                size: self.texture_size
+                pos_hint: {'center_x': 0.35, 'center_y': .19}
+                text: ''
+            Label:
+				id: dica
+                pos_hint: {'center_x': 0.5, 'center_y': .05}
+
+            Button:
+                size_hint: None,None
+                size: 280,40
+                pos_hint: {'center_x':0.5, 'center_y': .10 }
+                background_color: 1,0.3,0.1,1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Login Now'
+                bold: True
+                on_press: root.openloginpage()
+
+<PopupWarning>
+    size_hint: None, None
+    size: 232, 200
+    title: 'Incorrect creds/no account found'
+    separator_color: 1, 0.3, 0.2, 1
+    BoxLayout:
+        orientation: 'vertical'
+        Label:
+            size_hint: 1, .7
+            text_size: self.size
+        Button:
+            pos_hint: {'center_x': .5}
+            size_hint: .5, .3
+            text: 'Ok'
+            on_press: root.dismiss()
+
+<LoginScreen>:
+    canvas:
+        Color:
+            rgba: 1, 1, 1, 0.5
+        Rectangle:
+            source: app.background_login
+            size: self.size
+            pos: self.pos
+    BoxLayout:
+        size_hint: 1, 0.12
+        pos_hint: {'top': 1}
+        Image:
+            source: app.netflix_logo
+            pos_hint: {'center_y': .5}
+            size_hint: None, None
+            size: 170, 90
+    BoxLayout:
+        padding: self.width*0.3, self.height*0.12, self.width*0.3, self.height*0.12   #left, top, right, bottom
+        FloatLayout:
+            canvas:
+                Color:
+                    rgba: 0, 0, 0, 0.6
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: 'Login/Signup \nto Sell'
+                font_name: app.netflix_font
+                font_size: 45
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.075, 'center_y': .85}
+            UserInput:
+                id: email
+                pos_hint: {'center_x': 0.5, 'center_y': .6}
+                focus: True
+                hint_text: 'Email'
+                write_tab: False
+                on_text_validate: root.login_verification()
+            UserInput:
+                id: passw
+                pos_hint: {'center_x': 0.5, 'center_y': .47}
+                hint_text: 'Password'
+                password: True
+                on_text: root.istab_pressed(self.text)
+                on_text_validate: root.login_verification()
+            Button:
+                size_hint: None, None
+                size: 280, 40
+                pos_hint: {'center_x': 0.5, 'center_y': .28}
+                background_color: 1, 0.3, 0.2, 1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Login'
+                bold: True
+                on_press: root.login_verification()
+
+            Button:
+                size_hint: None,None
+                size: 280,40
+                pos_hint: {'center_x':0.5, 'center_y': .10 }
+                background_color: 1,0.3,0.2,1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Create Account'
+                bold: True
+                on_press: root.openaccountpage()
+
+            CheckBox:
+                id: checkbox
+                size_hint: None, None
+                size: 25, 25
+                pos_hint: {'center_x': 0.1, 'center_y': .19}
+                canvas.before:
+                    Color:
+                        rgba: .3, .3, .3, 1
+                    Rectangle:
+                        size: self.size[0] - 10, self.size[1] - 10
+                        pos: self.pos[0] + 5, self.pos[1] + 5
+                color: 0, 0, 0, 1
+            Label:
+                size_hint: None, None
+                size: self.texture_size
+                pos_hint: {'center_x': 0.35, 'center_y': .19}
+                text: 'Remember me'
+            Label:
+				id: dica
+                pos_hint: {'center_x': 0.5, 'center_y': .05}
+########################################################################################################################
+<MobifySell>
+    FloatLayout:
+        ScrollView:
+            id: scroll_home
+            size_hint: 1, 0.88
+            pos_hint: {'center_y': .44}
+            bar_width: 10
+            scroll_wheel_distance: 40
+            scroll_type: ['bars', 'content']
+            effect_cls: ScrollEffect
+            BoxLayout:
+                id: content
+                orientation: 'vertical'
+                size_hint: 1, None
+                height: self.minimum_height
+                padding: 22, 0, 22, 10
+                canvas:
+                    Color:
+                        rgba: .15, .15, .15, .9
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        MenuHeader
+    Sellwindow
+
+<MobifyRepair>
+    FloatLayout:
+        ScrollView:
+            id: scroll_home
+            size_hint: 1, 0.88
+            pos_hint: {'center_y': .44}
+            bar_width: 10
+            scroll_wheel_distance: 40
+            scroll_type: ['bars', 'content']
+            effect_cls: ScrollEffect
+            BoxLayout:
+                id: content
+                orientation: 'vertical'
+                size_hint: 1, None
+                height: self.minimum_height
+                padding: 22, 0, 22, 10
+                canvas:
+                    Color:
+                        rgba: .15, .15, .15, .9
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        RepairWindow
+        MenuHeader
+
+
+<Sellwindow>
+    BoxLayout:
+        padding: self.width*0.01, self.height*0.2, self.width*0.01, self.height*0.01   #left, top, right, bottom
+        FloatLayout:
+            canvas:
+                Color:
+                    rgba: 1, 0.3, 0.2, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: 'Sell Device'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.020, 'y': 0.82}
+
+            Label:
+                text: 'Select Date'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.30, 'y': 0.82}
+
+            Spinner:
+                id: brand
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.80}
+                text: 'Choose Brand'
+                values: 'OnePlus', 'Apple', 'Samsung'
+                on_text:
+                    root.price(self.values)
+
+            Spinner:
+                id: month
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.30, 'y': 0.80}
+                text: 'Choose Month'
+                values: 'Oct', 'Nov', 'Dec'
+                on_text:
+                    root.pickup(self.values)
+
+            Spinner:
+                id: damage
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.67}
+                text: 'Damage'
+                values: 'Flawless', 'Dents', 'Not Working'
+                on_text:
+                    root.price(self.values)
+
+            Spinner:
+                id: day
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.30, 'y': 0.67}
+                text: 'Choose Date'
+                values: '1','5','10','15','20','25','30'
+                on_text:
+                    root.pickup(self.values)
+
+            Spinner:
+                id: years
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.55}
+                text: 'Device age'
+                values: '1', '3', '5'
+                on_text:
+                    root.price(self.values)
+
+            Spinner:
+                id: warrant
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.42}
+                text: 'Under Warranty?'
+                values: 'Yes', 'No'
+                on_text:
+                    root.price(self.values)
+
+            Button:
+                size_hint: None,None
+                size: 120,40
+                pos_hint: {'x': 0.30, 'y': 0.55}
+                background_color: 0,0,0,1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Confirm Order'
+                bold: True
+                on_press: root.display()
+
+
+            Label:
+                text: 'Order Summary'
+                font_name: app.netflix_font
+                font_size: 38
+                color: 0,0,0,1
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.82}
+
+            Label:
+                id: brandchoosen
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.72}
+
+            Label:
+                id: damagedone
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.750, 'y': 0.72}
+
+            Label:
+                id: yearsold
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.62}
+
+            Label:
+                id: warranty
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.750, 'y': 0.62}
+
+            Label:
+                text: 'Pickup Date'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                color: 0,0,0,1
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.52}
+
+            Label:
+                id: date
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.600, 'y': 0.42}
+
+            Label:
+                text: 'Resale Value'
+                font_name: app.netflix_font
+                color: 0,0,0,1
+                font_size: 38
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.32}
+            Label:
+                id:resale
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                color: 0,0,0,1
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.22}
+
+#################################################################################################
+
+<RepairWindow>
+    BoxLayout:
+        padding: self.width*0.01, self.height*0.2, self.width*0.01, self.height*0.01   #left, top, right, bottom
+        FloatLayout:
+            canvas:
+                Color:
+                    rgba: 1, 0.3, 0.2, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: 'Repair Device'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                color: 0,0,0,1
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.020, 'y': 0.82}
+
+            Label:
+                text: 'Select Date'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.30, 'y': 0.82}
+
+            Spinner:
+                id: brand
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.80}
+                text: 'Choose Brand'
+                values: 'OnePlus', 'Apple', 'Samsung'
+                on_text:
+                    root.price(self.values)
+
+            Spinner:
+                id: month
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.30, 'y': 0.80}
+                text: 'Choose Month'
+                values: 'Oct', 'Nov', 'Dec'
+                on_text:
+                    root.pickup(self.values)
+
+            Spinner:
+                id: damage
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.67}
+                text: 'Problem'
+                values: 'Battery', 'Screen', 'Body', 'Camera'
+                on_text:
+                    root.price(self.values)
+
+            Spinner:
+                id: day
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.30, 'y': 0.67}
+                text: 'Choose Date'
+                values: '1','5','10','15','20','25','30'
+                on_text:
+                    root.pickup(self.values)
+
+            Spinner:
+                id: years
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.55}
+                text: 'Device age'
+                values: '1', '3', '5'
+                on_text:
+                    root.price(self.values)
+
+            Spinner:
+                id: warrant
+                size_hint: None, None
+                size: 120, 44
+                pos_hint: {'x': 0.020, 'y': 0.42}
+                text: 'Under Warranty?'
+                values: 'Yes', 'No'
+                on_text:
+                    root.price(self.values)
+
+            Button:
+                size_hint: None,None
+                size: 120,40
+                pos_hint: {'x': 0.30, 'y': 0.55}
+                background_color: 0,0,0,1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Confirm Order'
+                bold: True
+                on_press: root.display()
+
+
+            Label:
+                text: 'Order Summary'
+                font_name: app.netflix_font
+                font_size: 38
+                color: 0,0,0,1
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.82}
+
+            Label:
+                id: brandchoosen
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.72}
+
+            Label:
+                id: damagedone
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.750, 'y': 0.72}
+
+            Label:
+                id: yearsold
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.62}
+
+            Label:
+                id: warranty
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.750, 'y': 0.62}
+
+            Label:
+                text: 'Pickup Date'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                color: 0,0,0,1
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.52}
+
+            Label:
+                id: date
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.600, 'y': 0.42}
+
+            Label:
+                text: 'Repair Fee'
+                font_name: app.netflix_font
+                color: 0,0,0,1
+                font_size: 38
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.32}
+            Label:
+                id:resale
+                text: ''
+                font_name: app.netflix_font
+                font_size: 28
+                color: 0,0,0,1
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.22}
+
+
+#############################################################################
+<CustomButton@Button>:
+    size_hint: None, 1
+    width: self.texture_size[0] + 20
+    background_color: 0, 0, 0, 0
+    on_press: print(self.text)
+	
+<ContentList>:
+    orientation: 'vertical'
+    size_hint: 1, None
+    height: self.minimum_height
+    Label:
+        size_hint: None, None
+        size: self.texture_size
+        id: label
+        bold: True
+        font_size: 25
+        color: .9, .9, .9, 1
+    ScrollView:
+        size_hint: 1, None 
+        height: 150
+        do_scroll: True, True
+        effect_cls: ScrollEffect
+		bar_color: 1, 1, 1, 0
+		bar_inactive_color: 1, 1, 1, 0
+        scroll_type: ['content']
+        GridLayout:
+            id: grid
+            size_hint: None, None
+            size: self.minimum_width, 151
+            spacing: 7
+
+<SearchBox>:
+    Button:
+        id: searchbtn
+        size_hint: .08, .35
+        pos_hint: {'center_y': .5, 'center_x': .9}
+        background_normal: app.search_btn
+        background_down: app.search_btn
+        border: 0, 0, 0, 0
+
+<MenuHeader@BoxLayout>:
+	size_hint: 1, 0.12
+	pos_hint: {'top': 1}
+	canvas:
+		Color:
+			rgba: .15, .15, .15, .9
+		Rectangle:
+			size: self.size
+			pos: self.pos
+	Image:
+		size_hint: None, 1.3
+		width: 170
+		pos_hint: {'center_y': .55}
+		source: app.netflix_logo
+	CustomButton:
+		text: 'Sell'
+		bold: True
+		on_press: app.root.current = 'mobifysell'
+	CustomButton:
+		text: 'Repair'
+		bold: True
+		on_press: app.root.current= 'mobifyrepair'
+	CustomButton:
+		text: 'Reviews'
+		bold: True
+        on_press: app.root.current ='netflixmenu'
+    CustomButton:
+        text: 'My Orders'
+        bold: True
+
+
+    SearchBox
+
+	FloatLayout:
+	    size_hint: .3, 1
+	    drop_menu: drop_menu.__self__
+		# DropdownMenu
+        Button:
+            size_hint: .5, .55
+            pos_hint: {'center_y': .5, 'center_x': .5}
+            on_parent: drop_menu.dismiss()
+            on_release: drop_menu.open(self)
+            Image:
+                source: app.dropmenu_icon
+                x: self.parent.x
+                y: self.parent.y
+                size_hint: None, None
+                size: 40, 40
+        DropDown:
+            id: drop_menu
+            pos_hint: {'center_x': .86}
+            auto_width: False
+            width: 170
+            on_select: print(args[1])
+            Label:
+                size_hint: 1, None
+                height: self.texture_size[1]
+                text: ' '*36 + '^'
+                halign: 'left'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint: None, None
+                width: 170
+                height: 200
+                canvas.before:
+                    Color:
+                        rgba: 0, 0, 0, .8
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 10, 10, 10, 10
+                    BoxLayout:
+                        Button:
+                            size_hint: None, None
+                            size: 37, 37
+                            pos_hint: {'top': 1}
+                            on_press: drop_menu.select('Usuário: ' + btn_user.text)
+                            Image:
+                                source: app.dropmenu_icon
+                                x: self.parent.x
+                                y: self.parent.y
+                                size_hint: None, None
+                                size: self.parent.size
+                        Button:
+                            id: btn_user
+                            pos_hint: {'center_y': .6}
+                            background_color: 0, 0, 0, 0
+                            text: 'Logged In'
+                            on_press: drop_menu.select('Usuário: ' + self.text)
+                    Button:
+                        size_hint: 1, .5
+                        background_color: 1, 1, 1, 0
+                        text: 'MENU'
+                        on_press: drop_menu.select('Opção: ' + self.text)
+                BoxLayout:
+                    orientation: 'vertical'
+                    padding: 10, 0, 10, 5
+                    Button:
+                        background_color: 1, 1, 1, 0
+                        bold: True
+                        text: 'Repair'
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'center'
+                        on_press: app.root.current ='mobifyrepair'
+
+                    Button:
+                        background_color: 1, 1, 1, 0
+                        bold: True
+                        text: 'Centro de Ajuda'
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'center'
+                        on_press: drop_menu.select('Opção: ' + self.text)
+                    Button:
+                        background_color: 1, 1, 1, 0
+                        bold: True
+                        text: 'Logout'
+                        text_size: self.size
+                        halign: 'left'
+                        valign: 'center'
+                        on_release:
+                            drop_menu.dismiss()
+                            app.root.current = 'loginscreen'
+                            app.root.get_screen('loginscreen').ids.email.focus = True
+        # End of the DropDown Menu
+
+<Banner>:
+    size_hint: 1.056, None
+    height: 450
+    pos_hint: {'center_x': .5}
+    FloatLayout:
+        pos: self.parent.pos
+        Image:
+            source: app.banner
+            size_hint:[1, None]
+            height: 550
+            pos_hint: {'top': 1}
+            allow_stretch:True
+            keep_ratio:False
+        Label:
+            text: 'Downey Jr.\nwith the\n 8 Pro'
+            font_name: app.netflix_font
+            bold: True
+            font_size: 50
+            pos_hint: {'center_y': .7, 'center_x': .15}
+            color: 1, 1, 1, 1
+        Button:
+            size_hint: None, None
+            size: 140, 50
+            pos_hint: {'center_y': .43, 'center_x': .12}
+            text: str(chr(187)) + ' Watch the Ad'
+            bold: True
+            color: 1, 1, 1, 1
+            background_color: 0, 0, 0, .4
+            background_normal: app.roundborder
+            on_release: print(self.text + ' botão')
+        Button:
+            size_hint: None, None
+            size: 140, 50
+            pos_hint: {'center_y': .43, 'center_x': .3}
+            text: '+ Check Reviews'
+            bold: True
+            color: 1, 1, 1, 1
+            background_color: 0, 0, 0, .4
+            background_normal: app.roundborder
+            on_release: print(self.text + ' botão')
+        Label:
+            text:
+                '''
+                'OnePlus 8 Pro has the hottest marketing campaign with
+                'the IronMan, Robert Downey Jr. endorsing the smartphone
+                'that has been crowned as the Flagship Killer,
+                'making it a most wanted phone at its price range.
+                '''.replace("'", '')
+            font_name: app.netflix_font
+            size: self.size
+            bold: True
+            font_size: 20
+            color: 1,1,1,1
+            pos_hint: {'center_y': .22, 'center_x': .3}
+
+<NetflixHome>:
+    FloatLayout:
+        ScrollView:
+            id: scroll_home
+            size_hint: 1, 0.88
+            pos_hint: {'center_y': .44}
+            bar_width: 10
+            scroll_wheel_distance: 40
+            scroll_type: ['bars', 'content']
+            effect_cls: ScrollEffect
+            BoxLayout:
+                id: content
+                orientation: 'vertical'
+                size_hint: 1, None
+                height: self.minimum_height
+                padding: 22, 0, 22, 10
+                canvas:
+                    Color:
+                        rgba: .15, .15, .15, .9
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        MenuHeader
+########################################################################################################################
+<ResultPage>
+    FloatLayout:
+        canvas.before:
+            Color:
+                rgba: .15, .15, .15, .9
+            Rectangle:
+                size: self.size
+                pos: self.pos
+        Label:
+            id: searchtext
+            font_size: 28
+            size_hint: None, None
+            size: self.texture_size
+            pos_hint: {'center_y': .83}
+        ScrollView:
+            id: scroll_result
+            size_hint: 1, 0.88
+            pos_hint: {'center_y': .35}
+            bar_width: 10
+            scroll_wheel_distance: 40
+            scroll_type: ['bars', 'content']
+            effect_cls: ScrollEffect
+            StackLayout:
+                id: stack
+                spacing: 10
+                padding: 30, 0, 22, 50
+                size_hint: 1, None
+                height: self.minimum_height + 30
+                pos_hint: {'center_y': .35}
+        MenuHeader
+
