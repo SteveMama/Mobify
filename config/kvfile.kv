@@ -15,6 +15,8 @@
         name: 'mobifyrepair'
     MobifySell:
         name: 'mobifysell'
+    MobifyOrder:
+        name: 'mobifyorder'
 
 ########################################################################################################################
 <UserInput@TextInput>:
@@ -256,6 +258,91 @@
         MenuHeader
     Sellwindow
 
+<MobifyOrder>
+    FloatLayout:
+        ScrollView:
+            id: scroll_home
+            size_hint: 1, 0.88
+            pos_hint: {'center_y': .44}
+            bar_width: 10
+            scroll_wheel_distance: 40
+            scroll_type: ['bars', 'content']
+            effect_cls: ScrollEffect
+            BoxLayout:
+                id: content
+                orientation: 'vertical'
+                size_hint: 1, None
+                height: self.minimum_height
+                padding: 22, 0, 22, 10
+                canvas:
+                    Color:
+                        rgba: .15, .15, .15, .9
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+        MenuHeader
+        OrderWindow
+
+
+<OrderWindow>
+    BoxLayout:
+        padding: self.width*0.01, self.height*0.2, self.width*0.01, self.height*0.01   #left, top, right, bottom
+        FloatLayout:
+            canvas:
+                Color:
+                    rgba: 1, 0.3, 0.2, 1
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+            Label:
+                text: 'Phones Sold!'
+                font_name: app.netflix_font
+                font_size: 38
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.020, 'y': 0.82}
+
+            Label:
+                id: sellorder
+                text:''
+                font_size : 25
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.020, 'y': 0.72}
+
+            Label:
+                id: repairorder
+                text: ''
+                font_size: 25
+                size_hint: None,None
+                size: self.texture_size[0],130
+                pos_hint: {'x': 0.60, 'y': 0.72}
+
+
+            Button:
+                size_hint: None,None
+                size: 120,40
+                pos_hint: {'x': 0.30, 'y': 0.90}
+                background_color: 0,0,0,1
+                background_normal: app.roundborder
+                background_down: app.roundborder
+                text: 'Show Order'
+                bold: True
+                on_press: root.displayorder()
+
+
+            Label:
+                text: 'Repairs Done!'
+                font_name: app.netflix_font
+                font_size: 38
+                color: 0,0,0,1
+                size_hint: None, None
+                size: self.texture_size[0], 130
+                pos_hint: {'x': 0.60, 'y': 0.82}
+
+
+
+
 <MobifyRepair>
     FloatLayout:
         ScrollView:
@@ -280,6 +367,8 @@
                         pos: self.pos
         RepairWindow
         MenuHeader
+
+
 
 
 <Sellwindow>
@@ -714,7 +803,7 @@
     CustomButton:
         text: 'My Orders'
         bold: True
-
+        on_press: app.root.current ='mobifyorder'
 
     SearchBox
 
@@ -796,11 +885,11 @@
                     Button:
                         background_color: 1, 1, 1, 0
                         bold: True
-                        text: 'Centro de Ajuda'
+                        text: 'My Orders'
                         text_size: self.size
                         halign: 'left'
                         valign: 'center'
-                        on_press: drop_menu.select('Opção: ' + self.text)
+                        on_press: app.root.current ='mobifyorder'
                     Button:
                         background_color: 1, 1, 1, 0
                         bold: True
