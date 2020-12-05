@@ -28,7 +28,12 @@ class PopupWarning(Popup):
     # PopUp do Login
     pass
 
-
+#order details to be fetched
+#check <OrderWindow> in .kv file
+class OrderWindow(Screen):
+    def displayorder(self):
+        self.ids.repairorder.text =''
+        self.ids.sellorder.text=''
 
 
 class Sellwindow(Screen):
@@ -237,6 +242,10 @@ class MobifySell(Screen):
         self.ids.content.clear_widgets()
 
 class MobifyRepair(Screen):
+    def on_leave(self, *args):
+        self.ids.content.clear_widgets()
+
+class MobifyOrder(Screen):
     def on_leave(self, *args):
         self.ids.content.clear_widgets()
 
